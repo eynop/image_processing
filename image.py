@@ -4,6 +4,8 @@ import resize
 
 
 def do_resize(args, images):
+    if args.width is None and args.height is None:
+        raise ValueError('Specify width or height or both of new image')
     resize.resize(images, args.width, args.height)
     print('Done')
 

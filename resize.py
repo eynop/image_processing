@@ -1,7 +1,8 @@
 import argparse
-import cv2
 import sys
 import os
+
+from PIL import Image
 
 
 DIR = 'resized'
@@ -13,8 +14,8 @@ def resize(images, width, height):
 
     for i in images:
         print('Resizing ', i)
-        img = cv2.imread(i)
-        h, w = img.shape[:2]
+        img = Image.open(i)
+        w, h = img.size
         
         if width is not None and height is not None:
             scale = width/w if w > h else height/h
@@ -25,12 +26,12 @@ def resize(images, width, height):
 
         nh, nw = int(h * scale), int(w * scale)
         if scale < 1:
-            new_img = cv2.resize(img, (nw, nh), cv2.INTER_AREA)
+            new_img = img.resize((nw, nh), Image.NEAREST)
         else:
-            new_img = cv2.resize(img, (nw, nh), cv2.INTER_CUBIC)
+            new_img = img.resizei((nw, nh), Image.BICUBIC)
 
-        cv2.imwrite(os.path.join(DIR, i), new_img)
-        
+        new_img.save(os.path.join(DIR, i))
+
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
@@ -39,7 +40,7 @@ if __name__ == '__main__':
     args, unknown = args.parse_known_args()
 
     if args.width is None and args.height is None:
-        raise ValueError('Specify either width or height of new image')
+        raise ValueError('Specify width or height or both of new image')
 
     resize(unknown, args.width, args.height)
 
