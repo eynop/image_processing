@@ -1,15 +1,10 @@
-import os # directory creation
 import math # calculation of rows and cols amount
-import time # for image name
 
 from PIL import Image
 
 # library local imports
 import resize
 import utils
-
-
-DIR = 'stacked'
 
 
 def stack(images, wide=False, tall=False):
@@ -27,16 +22,6 @@ def stack(images, wide=False, tall=False):
 
     print('Creating grid image')
     return grid(images)
-
-
-def stack_save(images, wide=False, tall=False):
-
-    if not os.path.exists(DIR):
-        os.mkdir(DIR)
-
-    strip = stack(images, wide, tall)
-    fname = '{}.jpg'.format(str(int(time.time())))
-    strip.save(os.path.join(DIR, fname))
 
 
 def horizontal(images):
@@ -113,3 +98,4 @@ def grid(images):
     grid_img = vertical(strips)
     
     return grid_img
+
