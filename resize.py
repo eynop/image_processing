@@ -8,7 +8,7 @@ import utils
 
 def _compute_scale(width, height, new_width, new_height):
     
-    if new_width is not None and height is not None:
+    if new_width is not None and new_height is not None:
         return new_width/width if width > height else new_height/height
 
     if new_width is not None:
